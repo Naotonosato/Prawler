@@ -1,0 +1,39 @@
+#:import Window kivy.core.window.Window
+
+<RecycleTreeView@RecycleLayout+TreeView>:
+    _: 0
+
+BoxLayout:
+    Label:
+        text: 'Video'
+        font_size: 100
+    TreeView:
+        TreeViewLabel:
+            text: '1'
+            TreeViewLabel
+                text: '2'
+
+
+<Draggaable@DragBehavior+Button>:
+    drag_rectangle: 0,0,Window.width,Window.height
+    text: 'aaa'
+    on_touch_move:
+        print('ababa')
+
+<_@FloatLayout>:
+    Draggaable:
+        canvas:
+            Color:
+                rgba: 1,1,1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        text: 'a'
+        size_hint: (None, None)
+        width: 100
+        height: 100
+    Label:
+        size_hint: (None, None)
+        width: 100
+        height: 100

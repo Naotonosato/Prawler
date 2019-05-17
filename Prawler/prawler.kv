@@ -1,0 +1,105 @@
+#:import Draggable uix.draggable.Draggable
+#:import ToolBox uix.toolbox.ToolBox
+#:import RelationTreeView uix.relationtreeview.RelationTreeView
+#:import LadderSandbox uix.sandbox.LadderSandbox
+#:import Setting uix.setting.Setting
+#:import SettingField uix.setting.SettingField
+<_Widget@Widget>:
+    canvas.after:
+        Color: 
+            rgba: 1,1,1,1
+        Line:
+            rectangle: self.x + 1,self.y + 1,self.width - 1,self.height - 1
+            dash_offset: 5
+            dash_length: 3 
+
+<DraggableItem@Draggable+Label>:
+    owned_class: {'class': 'Widget'}
+    size_hint: None,None
+    width: 100
+    height: 100
+    canvas.after:
+        Color: 
+            rgba: .8,.8,.8,.8
+        Line:
+            rectangle: self.x,self.y,self.width,self.height
+
+
+ScreenManager:
+    Start:
+    UIEditor:
+        
+#UIBuilder
+
+<Start@Screen>:
+    name: 'start'
+    BoxLayout:
+        Label:
+            text: 'start'
+            on_touch_down:
+                setattr(root.manager,'current','ui_editor')
+        MultiLanguageTextInput:
+
+
+<UIEditor@Screen>:
+    name: 'ui_editor'
+    BoxLayout:
+        ScrollView:
+            size_hint_x: 0.3
+            scroll_type: ['content']
+            RelationTreeView:
+                size_hint_y: None
+                minimum_height: root.height
+                height: self.minimum_height
+        FloatLayout:
+            size_hint_x: 0.5
+            pos: self.parent.x,root.height * 0.8
+            ToolBox:
+                id: toolbox
+                sandbox: sandbox
+                size_hint: None,None
+                pos: self.parent.x,root.height * 0.8
+                size: root.width,100
+                canvas.before:
+                    Color:
+                        rgba: .5,.5,.5,.5
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                DraggableItem:
+                    text: 'Button'
+                    owned_class: {'class':'Button'}
+                DraggableItem:
+                    text: 'Image'
+                    owned_class: {'class':'Image'}
+                DraggableItem:
+                    text: 'FloatLayout'
+                    owned_class: {'class':'FloatLayout'}
+                DraggableItem:
+                    text: 'BoxLayout'
+                    owned_class: {'class':'BoxLayout'}
+            LadderSandbox:
+                id: sandbox
+                size_hint: (None, None)
+                size: root.width,root.height * 0.8
+                pos: 0,0
+                canvas.before:
+                    Color:
+                        rgba: .3,.3,.3,.4
+                    Rectangle:
+                        pos: toolbox.x,self.y
+                        size: self.size
+        BoxLayout:
+            size_hint_x: 0.2
+            ScrollView:
+                bar_width: 5
+                scroll_type: ['bars','content'] 
+                PropertyView:
+                    orientation: 'vertical'
+                    minimum_height: self.parent.parent.height
+                    size_hint_y: None
+                    height: self.minimum_height
+
+<CanvasEditor@Screen>:
+    
+    _: 0
